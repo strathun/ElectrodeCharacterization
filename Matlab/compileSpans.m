@@ -1,8 +1,14 @@
 % clc;
 clear all;
-cd('C:\Users\hstra\Google Drive\Transporter\AnalyzerScripts');
+
+%Sets relative filepaths
+currentFile = mfilename( 'fullpath' );
+cd(fileparts(currentFile));
+cd('..\RawData');
+addpath(genpath('../pydevicecontrol'));
+addpath(genpath('../Matlab'));
+
 kT=300*1.38e-23;
-addpath(genpath('pydevicecontrol'));
 % folder_name_note = 'UEA_7603-16 _Surgery2';    %folder will be date stamped + note
 % fnote = 'Surgery2';                     %Note to append to filename
 folder_name_note = 'TDT12_PreSurge';    %folder will be date stamped + note
