@@ -11,11 +11,11 @@ addpath(genpath('../Matlab'));
 kT=300*1.38e-23;
 % folder_name_note = 'UEA_7603-16 _Surgery2';    %folder will be date stamped + note
 % fnote = 'Surgery2';                     %Note to append to filename
-folder_name_note = 'TDT12_PreSurge';    %folder will be date stamped + note
+folder_name_note = 'TDT12_Day80';    %folder will be date stamped + note
 fnote = 'HS';
 datestamp=datestr(date,29);
 
-channel = '1111'; %Binary used for mux channel select as string
+channel = '0111'; %Binary used for mux channel select as string
 
 scaleDown = 2; % factor to reduce number of averages by
                 % use 1 in vitro and 2 in vivo

@@ -1,4 +1,4 @@
-function setMuxChannelv2(port, m1,m2,m3)
+function setSingleMux(port, m1)
     %   Uses the specified port to set muxes 1,2,3 to a specificed channel.
     %   Use com3 on windows 10, use just number and uncomment port
     %   adjustment code.
@@ -8,22 +8,12 @@ function setMuxChannelv2(port, m1,m2,m3)
     else
         bitand(m1,15);   
     end
-    if m2 == -1 || (m2 > 15)
-        bitor(m2,16); 
-    else
-        bitand(m2,15); 
-    end
-    if m3 == -1 || (m3 > 15)
-        bitor(m3,16); 
-    else
-        bitand(m3,15); 
-    end
+    
     
     %m1=bitor(m1,8)
     %convert channel into char encoding, because you have to (I hate MBED)
     m1=char(bitor(m1,80));
-    m2=char(bitor(m2,80));
-    m3=char(bitor(m3,80));
+
     
     if m1 == '^' %Can't use ^ (ch14) in cmd line, ^^ sends ^ as char
         m1 = ['^' '^'];
@@ -35,5 +25,5 @@ function setMuxChannelv2(port, m1,m2,m3)
     
 
     
-    args = ['python C:\Users\Tye\Documents\MATLAB\MuxControl.py ',port,' ',m1,' ',m2,' ',m3];
+    args = ['python C:\Users\Tye\Documents\MATLAB\MuxControl_single.py ',port,' ',m1];
     system(args);
