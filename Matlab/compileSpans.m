@@ -11,18 +11,18 @@ addpath(genpath('../Matlab'));
 kT=300*1.38e-23;
 % folder_name_note = 'UEA_7603-16 _Surgery2';    %folder will be date stamped + note
 % fnote = 'Surgery2';                     %Note to append to filename
-folder_name_note = 'TDT12_Day80';    %folder will be date stamped + note
+folder_name_note = 'TDT12_Day80_Newboard_MohHS';    %folder will be date stamped + note
 fnote = 'HS';
 datestamp=datestr(date,29);
 
-channel = '0111'; %Binary used for mux channel select as string
+channel = '0000'; %Binary used for mux channel select as string
 
 scaleDown = 2; % factor to reduce number of averages by
                 % use 1 in vitro and 2 in vivo
 
-f_range = 1; %Select 0 for low frequency headstage, 1 for high frequency HS
+f_range = 0; %Select 0 for low frequency headstage, 1 for high frequency HS
 
-senseRange=-59; %HS2: GND -64, 
+senseRange=-48; %HS2: GND -64, 
                 %HS3: GND -63
                 %HSlow: GND -67
                 %UEA_LS_vitro = -65
@@ -36,13 +36,17 @@ gnd_measurement = 0; %Select 0 for regular, 1 to take gnd measurement
 
 %lowF_Av_new = 226; %for 2nd LS headstage
 lowF_Av = 346 ;  % Gain of lowF headstage
-highF_Av = 369; % Gain of highF headstage  (was 389)             
+highF_Av = 369; % Gain of highF headstage  (was 389)        
+% lowF_Av = ;
+% highF_Av = ;
 
 pause(1)
 %% Execute
-dirname = [datestamp '_' folder_name_note]
+dirname = [datestamp '_' folder_name_note];
+
 if(~exist(dirname))
     mkdir(dirname);
+    copyfile("gndv1/*.mat", dirname)    %Copies gnd measurements to new folder
 else
     disp('Folder Already Exists')
 end
