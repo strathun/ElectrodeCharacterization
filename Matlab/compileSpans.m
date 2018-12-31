@@ -13,6 +13,7 @@ kT=300*1.38e-23;
 % fnote = 'Surgery2';                     %Note to append to filename
 folder_name_note = 'TDT12_Day80_Newboard_MohHS';    %folder will be date stamped + note
 fnote = 'HS';
+
 datestamp=datestr(date,29);
 
 channel = '0000'; %Binary used for mux channel select as string
