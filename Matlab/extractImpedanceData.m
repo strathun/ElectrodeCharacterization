@@ -7,8 +7,9 @@ function [f, Zreal, Zim] = extractImpedanceData(relPath)
 %                ex. '2018-01-30_TDT3_PreSurge/Impedance'
 
 % Sets relative filepaths
-currentFolder = mfilename( 'fullpath' );
-cd(fileparts(currentFolder));
+currentFile = mfilename( 'fullpath' );
+currentFolder = pwd;
+cd(fileparts(currentFile));
 cd('..\RawData');
 addpath(genpath('../pydevicecontrol'));
 addpath(genpath('../matlab'));
@@ -60,6 +61,7 @@ for kk = 3:length(fnames)
     end
 end
 
+cd(currentFolder)
 % Extract data to plot
 f = data(:,3,:);
 Zreal = data(:,4,:);
