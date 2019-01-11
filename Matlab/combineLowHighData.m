@@ -125,9 +125,12 @@ for ii=1:length(fnames)
 end
 
 %%
-AvL = 346;
-%AvL = 226
-AvH = 389;
+% AvL = 346;
+% AvH = 389;
+
+% v4 gain
+AvL = 1452;
+AvH = 971.6;
 %  frec = zeros([16,1752]);
 %  prec = zeros([16,1752]);
  %Plot Config

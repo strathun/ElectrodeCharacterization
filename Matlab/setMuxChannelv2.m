@@ -35,5 +35,5 @@ function setMuxChannelv2(port, m1,m2,m3)
     
 
     
-    args = ['python C:\Users\Tye\Documents\MATLAB\MuxControl.py ',port,' ',m1,' ',m2,' ',m3];
+    args = ['python ../python/MuxControl.py ',port,' ',m1,' ',m2,' ',m3];
     system(args);

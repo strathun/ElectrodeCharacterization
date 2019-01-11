@@ -4,14 +4,14 @@ clear all;
 %Sets relative filepaths
 currentFile = mfilename( 'fullpath' );
 cd(fileparts(currentFile));
-cd('..\RawData');
+cd('..\rawData');
 addpath(genpath('../pydevicecontrol'));
-addpath(genpath('../Matlab'));
+addpath(genpath('../matlab'));
 
 kT=300*1.38e-23;
 % folder_name_note = 'UEA_7603-16 _Surgery2';    %folder will be date stamped + note
 % fnote = 'Surgery2';                     %Note to append to filename
-folder_name_note = 'TDT12_Day80_Newboard_MohHS';    %folder will be date stamped + note
+folder_name_note = 'TDT12_Day136_Newboard';    %folder will be date stamped + note
 fnote = 'HS';
 
 datestamp=datestr(date,29);
@@ -35,12 +35,15 @@ senseRange=-48; %HS2: GND -64,
                 
 gnd_measurement = 0; %Select 0 for regular, 1 to take gnd measurement
 
-%lowF_Av_new = 226; %for 2nd LS headstage
-lowF_Av = 346 ;  % Gain of lowF headstage
-highF_Av = 369; % Gain of highF headstage  (was 389)        
-% lowF_Av = ;
-% highF_Av = ;
+%lowF_Av_new = 226;  %for 2nd LS headstage
+% lowF_Av = 346 ;    % Gain of lowF headstage
+% highF_Av = 369;    % Gain of highF headstage  (was 389)        
+lowF_Av  = 1452  ;  % Gain for v4 headstages
+highF_Av =  971.6;  % Gain for v4 headstages
 
+% Uses imbed mux to auto set channel
+electrodeNum = bin2dec(channel);
+setMuxChannelv2('COM4',electrodeNum,0,0)
 pause(1)
 %% Execute
 dirname = [datestamp '_' folder_name_note];
