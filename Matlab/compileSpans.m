@@ -1,5 +1,13 @@
 % clc;
-clear all;
+% Eventually make everything inside the for loop a function
+% and outside a script.
+clear all
+startNum = 5;   %0 indexing channel names (0-15)
+endNum = 5; 
+
+for trodeNum = startNum:endNum
+
+clearvars -except trodeNum startNum endNum %remove this when a function
 
 %Sets relative filepaths
 currentFile = mfilename( 'fullpath' );
@@ -11,19 +19,20 @@ addpath(genpath('../matlab'));
 kT=300*1.38e-23;
 % folder_name_note = 'UEA_7603-16 _Surgery2';    %folder will be date stamped + note
 % fnote = 'Surgery2';                     %Note to append to filename
-folder_name_note = 'TDT12_Day136_Newboard';    %folder will be date stamped + note
+folder_name_note = 'GndMeasurementGen2';    %folder will be date stamped + note
 fnote = 'HS';
 
 datestamp=datestr(date,29);
 
-channel = '0000'; %Binary used for mux channel select as string
+channel = dec2bin(trodeNum,4);
+% channel = '0000'; %Binary used for mux channel select as string
 
 scaleDown = 2; % factor to reduce number of averages by
                 % use 1 in vitro and 2 in vivo
 
-f_range = 0; %Select 0 for low frequency headstage, 1 for high frequency HS
+f_range = 1; %Select 0 for low frequency headstage, 1 for high frequency HS
 
-senseRange=-48; %HS2: GND -64, 
+senseRange=-67; %HS2: GND -64, 
                 %HS3: GND -63
                 %HSlow: GND -67
                 %UEA_LS_vitro = -65
@@ -33,13 +42,15 @@ senseRange=-48; %HS2: GND -64,
                 %TDT_LS_inVivo: -63
                 %TDT_HS_inVivo: -63
                 
-gnd_measurement = 0; %Select 0 for regular, 1 to take gnd measurement
+gnd_measurement = 1; %Select 0 for regular, 1 to take gnd measurement
 
 %lowF_Av_new = 226;  %for 2nd LS headstage
 % lowF_Av = 346 ;    % Gain of lowF headstage
 % highF_Av = 369;    % Gain of highF headstage  (was 389)        
-lowF_Av  = 1452  ;  % Gain for v4 headstages
-highF_Av =  971.6;  % Gain for v4 headstages
+% lowF_Av  = 1452  ;  % Gain for v4 headstages
+% highF_Av =  971.6;  % Gain for v4 headstages
+lowF_Av  =  812.5498;  % Gain for v4 headstages (Reworked/measured 1/23/19)
+highF_Av =  538.2698;  % Gain for v4 headstages (Reworked/measured 1/23/19)
 
 % Uses imbed mux to auto set channel
 electrodeNum = bin2dec(channel);
@@ -158,3 +169,5 @@ tic
 
 T=toc/60
 beep
+
+end

@@ -128,9 +128,10 @@ end
 % AvL = 346;
 % AvH = 389;
 
-% v4 gain
-AvL = 1452;
-AvH = 971.6;
+% v4 (gen 2) gain
+AvL  =  812.5498;  % Gain for v4 headstages (Reworked/measured 1/23/19)
+AvH =  538.2698;
+
 %  frec = zeros([16,1752]);
 %  prec = zeros([16,1752]);
  %Plot Config
