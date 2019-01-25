@@ -1,21 +1,28 @@
 %Saves data from network analyzer display
 clc;
-fname = 'MohMUX_TF1M_23.7k.mat';
-addpath('C:\Users\Tye\Documents\MATLAB\pydevicecontrol\DeviceLibs\MatlabLib')
+fname = 'HighSpeedGain_v4';    % Just the name you want to call it
+currentFile = mfilename( 'fullpath' );
+cd(fileparts(currentFile));
+addpath(genpath('../pydevicecontrol'));
+addpath(genpath('../matlab'));
+
 HP89441A = struct;
 HP89441A.saveToFile=1;
 HP89441A.address=10;
-HP89441A.pythonDeviceDir='C:\Users\Tye\Documents\MATLAB\pydevicecontrol\DeviceLibs\PythonLib';
+HP89441A.pythonDeviceDir= '"C:/Users/hstra/Google Drive/WalkerLab/ElectrodeCharacterization/pydevicecontrol/pydevicecontrol/DeviceLibs/PythonLib"';
+currentFolder = [pwd '\..\rawData'];
+cd(currentFolder)
 
-HP89441A.matlabFile=['C:\Users\Tye\Documents\MATLAB\' fname];
+HP89441A.matlabFile=['"' currentFolder '/' fname '"'];
 
 data=runPyDevice('sig_analyzer_get_all_data', HP89441A, 1);
 %%
-load(fname)
+
+load([currentFolder '/' fname])
 plot(x'-x(1),y')
 title('H(f) Mohit MUX (15MHz)')
 xlabel('Frequency (MHz)') 
 ylabel('Magnitude (dB)')
 set(gca,'fontsize',12)
 
-ylim([10 50])
+ylim([min(y)-5 max(y) + 5])
