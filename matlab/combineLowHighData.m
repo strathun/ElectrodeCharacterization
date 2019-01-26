@@ -130,10 +130,10 @@ if versionNum == 1
     AvH = 389;
 elseif versionNum ==4
     load('../rawData/HighSpeedGain_v4.mat')
-    AvH = 'HighSpeedGain_v4.mat';
+    AvH = 'highSpeedGain_v4.mat';
 %     AvH = 
     load('../rawData/HighSpeedGain_v4.mat')
-    AvL = 'LowSpeedGain_v4.mat';
+    AvL = 'lowSpeedGain_v4.mat';
 end
 
 % v4 (gen 2) gain

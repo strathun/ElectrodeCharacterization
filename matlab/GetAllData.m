@@ -1,6 +1,6 @@
 %Saves data from network analyzer display
 clc;
-fname = 'testtest';    % Just the name you want to call it
+fname = 'lowSpeedGain_v4';    % Just the name you want to call it
 currentFile = mfilename( 'fullpath' );
 cd(fileparts(currentFile));
 addpath(genpath('../pydevicecontrol'));
