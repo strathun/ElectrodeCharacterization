@@ -4,10 +4,11 @@
 clear all
 startNum = 5;   %0 indexing channel names (0-15)
 endNum = 5; 
+versionNum = 4; %board version number (1 or 4)
 
 for trodeNum = startNum:endNum
 
-clearvars -except trodeNum startNum endNum %remove this when a function
+clearvars -except trodeNum startNum endNum versionNum %remove this when a function
 
 %Sets relative filepaths
 currentFile = mfilename( 'fullpath' );
@@ -19,7 +20,7 @@ addpath(genpath('../matlab'));
 kT=300*1.38e-23;
 % folder_name_note = 'UEA_7603-16 _Surgery2';    %folder will be date stamped + note
 % fnote = 'Surgery2';                     %Note to append to filename
-folder_name_note = 'GndMeasurementGen2';    %folder will be date stamped + note
+folder_name_note = 'GndMeasurementVersion4_LFwithHighSpeedHS';    %folder will be date stamped + note
 fnote = 'HS';
 
 datestamp=datestr(date,29);
@@ -30,9 +31,9 @@ channel = dec2bin(trodeNum,4);
 scaleDown = 2; % factor to reduce number of averages by
                 % use 1 in vitro and 2 in vivo
 
-f_range = 1; %Select 0 for low frequency headstage, 1 for high frequency HS
+f_range = 0; %Select 0 for low frequency headstage, 1 for high frequency HS
 
-senseRange=-67; %HS2: GND -64, 
+senseRange=-56; %HS2: GND -64, 
                 %HS3: GND -63
                 %HSlow: GND -67
                 %UEA_LS_vitro = -65
@@ -49,19 +50,23 @@ gnd_measurement = 1; %Select 0 for regular, 1 to take gnd measurement
 % highF_Av = 369;    % Gain of highF headstage  (was 389)        
 % lowF_Av  = 1452  ;  % Gain for v4 headstages
 % highF_Av =  971.6;  % Gain for v4 headstages
-lowF_Av  =  812.5498;  % Gain for v4 headstages (Reworked/measured 1/23/19)
-highF_Av =  538.2698;  % Gain for v4 headstages (Reworked/measured 1/23/19)
+lowF_Av  =  837;  % Gain for v4 headstages (Reworked/measured 1/24/19)
+highF_Av =  767;  % Gain for v4 headstages (Reworked/measured 1/24/19)
 
 % Uses imbed mux to auto set channel
 electrodeNum = bin2dec(channel);
 setMuxChannelv2('COM4',electrodeNum,0,0)
-pause(1)
+pause(3)
 %% Execute
 dirname = [datestamp '_' folder_name_note];
 
 if(~exist(dirname))
     mkdir(dirname);
-    copyfile("gndv1/*.mat", dirname)    %Copies gnd measurements to new folder
+    if versionNum == 1
+        copyfile("gndv1/*.mat", dirname)    %Copies gnd measurements to new folder
+    else
+        copyfile("gndv4/*.mat", dirname)
+    end
 else
     disp('Folder Already Exists')
 end

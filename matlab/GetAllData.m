@@ -1,6 +1,6 @@
 %Saves data from network analyzer display
 clc;
-fname = 'HighSpeedGain_v4';    % Just the name you want to call it
+fname = 'testtest';    % Just the name you want to call it
 currentFile = mfilename( 'fullpath' );
 cd(fileparts(currentFile));
 addpath(genpath('../pydevicecontrol'));
@@ -19,7 +19,10 @@ data=runPyDevice('sig_analyzer_get_all_data', HP89441A, 1);
 %%
 
 load([currentFolder '/' fname])
-plot(x'-x(1),y')
+x = x-x(1); %for whatever reason, adds some value to each frequency value. This corrects the problem.
+save([currentFolder '/' fname],'x','y')
+
+plot(x',y')
 title('H(f) Mohit MUX (15MHz)')
 xlabel('Frequency (MHz)') 
 ylabel('Magnitude (dB)')
