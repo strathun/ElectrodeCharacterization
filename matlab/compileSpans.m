@@ -4,7 +4,7 @@
 clear all
 startNum = 0;   %0 indexing channel names (0-15)
 endNum = 2; 
-versionNum = 4; %board version number (1 or 4)
+versionNum = 4; %board version number (1 or 4, or 41 [if all measurements will be with high speed])
 
 for trodeNum = startNum:endNum
 
@@ -21,7 +21,7 @@ kT=300*1.38e-23;
 % folder_name_note = 'UEA_7603-16 _Surgery2';    %folder will be date stamped + note
 % fnote = 'Surgery2';                     %Note to append to filename
 folder_name_note = 'TDT13_PreSurge_Test';    %folder will be date stamped + note
-fnote = 'HS';
+fnote = 'LS';
 
 datestamp=datestr(date,29);
 
@@ -31,9 +31,9 @@ channel = dec2bin(trodeNum,4);
 scaleDown = 1; % factor to reduce number of averages by
                 % use 1 in vitro and 2 in vivo
 
-f_range = 1; %Select 0 for low frequency headstage, 1 for high frequency HS
+f_range = 0; %Select 0 for low frequency headstage, 1 for high frequency HS
 
-senseRange=-59; %HS2: GND -64, 
+senseRange=-63; %HS2: GND -64, 
                 %HS3: GND -63
                 %HSlow: GND -67
                 %UEA_LS_vitro = -65
@@ -64,8 +64,10 @@ if(~exist(dirname))
     mkdir(dirname);
     if versionNum == 1
         copyfile("gndv1/*.mat", dirname)    %Copies gnd measurements to new folder
-    else
+    elseif versionNum == 4
         copyfile("gndv4/*.mat", dirname)
+    elseif versionNum == 41
+        copyfile("gndv4_allHighSpeed/*.mat", dirname)
     end
 else
     disp('Folder Already Exists')

@@ -4,6 +4,7 @@ clear all;
 datestamp = datestr(date, 29);
 versionNum = 4; %board version number for gain selection. Currently must be 4.
 varplot = 0 ; %set 0 for individual figures; 1 for a single figure.(not up yet)
+stageSpeed = 1; % 0 if high and low speed headstages used, 1 if only high speed used
 
 d = uigetdir(); 
 listFiles = dir(d);
@@ -128,12 +129,16 @@ end
 if versionNum == 1
     AvL = 346;
     AvH = 389;
-elseif versionNum ==4
-    load('../rawData/HighSpeedGain_v4.mat')
+elseif versionNum ==4 && stageSpeed == 0
+    load('../rawData/highSpeedGain_v4.mat')
     AvH = 'highSpeedGain_v4.mat';
-%     AvH = 
-    load('../rawData/HighSpeedGain_v4.mat')
+    load('../rawData/lowSpeedGain_v4.mat')
     AvL = 'lowSpeedGain_v4.mat';
+elseif versionNum ==4 && stageSpeed == 1
+    load('../rawData/highSpeedGain_v4.mat')
+    AvH = 'highSpeedGain_v4.mat';
+    load('../rawData/highSpeedLFGain_v4.mat')
+    AvL = 'highSpeedLFGain_v4.mat';
 end
 
 % v4 (gen 2) gain
@@ -146,7 +151,7 @@ end
 %  prec = zeros([16,1752]);
  %Plot Config
 % colors = distinguishable_colors(32);
-colors = colormap(colorcube);spacer =3;
+colors = colormap(colorcube);spacer =6;
 numTraces = 0;
 font_size = 16; font_name = 'Arial';
 % figure()
