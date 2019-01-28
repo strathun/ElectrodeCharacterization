@@ -71,7 +71,8 @@ fref=fhold';
 % figure(77)
 for ii = 1:length(fnames)-2
     currentNameStr = (char(fnames(ii+2)));
-    elecNum = str2num(currentNameStr(15:16));
+    elecIndex = strfind(currentNameStr,'_E') + 2;
+    elecNum = str2num(currentNameStr(elecIndex:elecIndex+1));
 %     elecNum = str2num(currentNameStr(11:12))
     Zii =(Z(:,1,ii));
     Zinterp(:,ii) = interp1(f1,Zii,fref);
