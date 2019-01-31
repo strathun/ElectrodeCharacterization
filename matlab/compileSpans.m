@@ -2,9 +2,9 @@
 % Eventually make everything inside the for loop a function
 % and outside a script.
 clear all
-startNum = 0;   %0 indexing channel names (0-15)
-endNum = 2; 
-versionNum = 4; %board version number (1 or 4, or 41 [if all measurements will be with high speed])
+startNum = 0;    %0 indexing channel names (0-15)
+endNum = 0; 
+versionNum = 42; %board version number (1 or 4, or 41 [if all measurements will be with high speed])
 
 for trodeNum = startNum:endNum
 
@@ -20,8 +20,8 @@ addpath(genpath('../matlab'));
 kT=300*1.38e-23;
 % folder_name_note = 'UEA_7603-16 _Surgery2';    %folder will be date stamped + note
 % fnote = 'Surgery2';                     %Note to append to filename
-folder_name_note = 'TDT13_PreSurge_Test';    %folder will be date stamped + note
-fnote = 'LS';
+folder_name_note = 'TDT13_timerTest';    %folder will be date stamped + note
+fnote = 'HS';
 
 datestamp=datestr(date,29);
 
@@ -31,9 +31,9 @@ channel = dec2bin(trodeNum,4);
 scaleDown = 1; % factor to reduce number of averages by
                 % use 1 in vitro and 2 in vivo
 
-f_range = 0; %Select 0 for low frequency headstage, 1 for high frequency HS
+f_range = 2; %Select 0 for low frequency headstage, 1 for high frequency, 2 for full spectrum (highSpeed HS)
 
-senseRange=-63; %HS2: GND -64, 
+senseRange=-58; %HS2: GND -64, 
                 %HS3: GND -63
                 %HSlow: GND -67
                 %UEA_LS_vitro = -65
@@ -68,6 +68,8 @@ if(~exist(dirname))
         copyfile("gndv4/*.mat", dirname)
     elseif versionNum == 41
         copyfile("gndv4_allHighSpeed/*.mat", dirname)
+    elseif versionNum == 42
+        copyfile("gndv4_allHighSpeed_fullSpectrum/*.mat", dirname)
     end
 else
     disp('Folder Already Exists')
@@ -120,6 +122,8 @@ if (f_range == 0) %Note: Added extra span to end, takes longer
     
     Av = lowF_Av;
     rangeType = 'lowF'
+    
+    
 elseif f_range == 1
     % High freq 
     
@@ -145,6 +149,17 @@ elseif f_range == 1
     
     Av = highF_Av;
     rangeType = 'highF'
+    
+elseif f_range == 2
+%                
+    spans =    [2^12 25e3 105e3 ]; 
+    centers =  spans./2;
+    averages = n*[500 500 800]; 
+ 
+    
+    Av = highF_Av;
+    rangeType = 'HSonly';
+
 end
 
 errorClose = 0;

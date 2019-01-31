@@ -2,9 +2,11 @@
 clear all;
 
 datestamp = datestr(date, 29);
+
 versionNum = 4; %board version number for gain selection. Currently must be 4.
 varplot = 0 ; %set 0 for individual figures; 1 for a single figure.(not up yet)
 stageSpeed = 1; % 0 if high and low speed headstages used, 1 if only high speed used
+rangeType = 'HSonly'; % fast or HSonly (HSonly is actually just single spectrum, while fast is the old way of doing it 1/30/2019)
 
 d = uigetdir(); 
 listFiles = dir(d);
@@ -123,6 +125,59 @@ for ii=1:length(fnames)
     if ~isempty(findstr(file,'gnd__')) && ~isempty(findstr(file,'highF'))
         gnd_High = file;
     end
+    
+%%High Speed only Frequency Sorting
+    if ~isempty(findstr(file,'0000')) && ~isempty(findstr(file,'HSonly'))
+        e01_High = file;
+    end
+    if ~isempty(findstr(file,'0001')) && ~isempty(findstr(file,'HSonly'))
+        e02_High = file;
+    end
+    if ~isempty(findstr(file,'0010')) && ~isempty(findstr(file,'HSonly')) 
+        e03_High = file;
+    end
+    if ~isempty(findstr(file,'0011')) && ~isempty(findstr(file,'HSonly'))
+        e04_High = file;
+    end
+    if ~isempty(findstr(file,'0100')) && ~isempty(findstr(file,'HSonly'))
+        e05_High = file;
+    end
+    if ~isempty(findstr(file,'0101')) && ~isempty(findstr(file,'HSonly'))
+        e06_High = file;
+    end
+    if ~isempty(findstr(file,'0110')) && ~isempty(findstr(file,'HSonly'))
+        e07_High = file;
+    end
+    if ~isempty(findstr(file,'0111')) && ~isempty(findstr(file,'HSonly'))
+        e08_High = file;
+    end
+    if ~isempty(findstr(file,'1000')) && ~isempty(findstr(file,'HSonly'))
+        e09_High = file;
+    end
+    if ~isempty(findstr(file,'1001')) && ~isempty(findstr(file,'HSonly'))
+        e10_High = file;
+    end
+    if ~isempty(findstr(file,'1010')) && ~isempty(findstr(file,'HSonly'))
+        e11_High = file;
+    end
+    if ~isempty(findstr(file,'1011')) && ~isempty(findstr(file,'HSonly'))
+        e12_High = file;
+    end
+    if ~isempty(findstr(file,'1100')) && ~isempty(findstr(file,'HSonly'))
+        e13_High = file;
+    end
+    if ~isempty(findstr(file,'1101')) && ~isempty(findstr(file,'HSonly'))
+        e14_High = file;
+    end
+    if ~isempty(findstr(file,'1110')) && ~isempty(findstr(file,'HSonly'))
+        e15_High = file;
+    end
+    if ~isempty(findstr(file,'1111')) && ~isempty(findstr(file,'HSonly'))
+        e16_High = file;
+    end
+    if ~isempty(findstr(file,'gnd__')) && ~isempty(findstr(file,'HSonly'))
+        gnd_High = file;
+    end
 end
 
 %%
@@ -135,10 +190,15 @@ elseif versionNum ==4 && stageSpeed == 0
     load('../rawData/lowSpeedGain_v4.mat')
     AvL = 'lowSpeedGain_v4.mat';
 elseif versionNum ==4 && stageSpeed == 1
-    load('../rawData/highSpeedGain_v4.mat')
-    AvH = 'highSpeedGain_v4.mat';
-    load('../rawData/highSpeedLFGain_v4.mat')
-    AvL = 'highSpeedLFGain_v4.mat';
+    if strcmp(rangeType,'fast')
+        load('../rawData/highSpeedGain_v4.mat')
+        AvH = 'highSpeedGain_v4.mat';
+        load('../rawData/highSpeedLFGain_v4.mat')
+        AvL = 'highSpeedLFGain_v4.mat';
+    else
+        load('../rawData/highSpeedFullSpectrumGain_v4.mat')
+        AvH = 'highSpeedFullSpectrumGain_v4.mat';
+    end
 end
 
 % v4 (gen 2) gain
@@ -158,19 +218,26 @@ font_size = 16; font_name = 'Arial';
 for ii = 1:16
     try
         fHigh = eval(['e' sprintf('%02d',ii) '_High']);
-        fLow = eval(['e' sprintf('%02d',ii) '_Low']);
+        if strcmp(rangeType, 'HSonly')
+            fLow = 'x';
+            gnd_Low = 'x';
+            AvL = 0;
+        else
+            fLow = eval(['e' sprintf('%02d',ii) '_Low']);
+        end
         
-        [f p] = CombineHighLow(gnd_High, fHigh, gnd_Low, fLow, AvH, AvL,'fast','fast');
+        [f p] = CombineHighLow(gnd_High, fHigh, gnd_Low, fLow, AvH, AvL,rangeType,rangeType);
         fhold = f;
         
         %corner frequency calculation _ hs
-        p1 = fliplr(p(1:1408).').';
-        f1 = fliplr(f(1:1408).').';
-        cornerArray(ii) = cornerCalc( p1, f1, 3e3, 30, 5 );   %hs
-        
-        %builds array for mean calculations _ hs
-        noiseArray( ii, : ) = p.' ; 
-        
+        if ~strcmp(rangeType,'HSonly')
+            p1 = fliplr(p(1:1408).').';
+            f1 = fliplr(f(1:1408).').';
+            cornerArray(ii) = cornerCalc( p1, f1, 3e3, 30, 5 );   %hs
+
+            %builds array for mean calculations _ hs
+            noiseArray( ii, : ) = p.' ; 
+        end
         % Make and label the figure
 %         if ii==14
 %            p=[p(1:802);p(803:end)/1.5]; 

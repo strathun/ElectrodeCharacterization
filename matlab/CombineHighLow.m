@@ -1,6 +1,32 @@
 function [ f P ] = CombineHighLow(gndHigh,fHigh, gndLow,fLow, AvHigh, AvLow, highType, lowType )
 %Currently only works with 'fast' setting for acquired data
 %   Detailed explanation goes here
+
+if strcmp(highType,'HSonly')
+    load(gndHigh)
+%     PSD_gnd_H=y(1:end,:)'./AvHigh;
+    PSD_gnd_H=y(1:end,:)';
+    load(fHigh)
+%     PSD_el_H=y'./AvHigh;
+    PSD_el_H=y';
+    final_PSDs_H=sqrt(PSD_el_H.^2-PSD_gnd_H.^2);
+    [fH, PH] =mergeSpans(x, final_PSDs_H, 1, highType);
+    
+    % Pulls in gain spectrum gain measurement. Interpolates these
+    % measurements across the frequency range of interest.
+    load(AvHigh)
+    y = db2mag(y);
+    highGain = interp1(x,y,fH);
+    lastGainIndex = find(isnan(highGain),1); %Actually first non gain index
+    if ~isempty(lastGainIndex)
+        highGain(lastGainIndex:end) = highGain(lastGainIndex-1);
+    end
+    PH = PH./highGain;
+    
+    f = fH;
+    P = PH;
+elseif highType == 'fast'
+
     load(gndHigh)
 %     PSD_gnd_H=y(1:end,:)'./AvHigh;
     PSD_gnd_H=y(1:end,:)';
@@ -41,5 +67,7 @@ function [ f P ] = CombineHighLow(gndHigh,fHigh, gndLow,fLow, AvHigh, AvLow, hig
     
     f = [fL(1:end); fH(1:end)];
     P = [PL(1:end); PH(1:end)];
+end
+
 end
 

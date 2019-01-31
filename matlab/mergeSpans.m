@@ -13,7 +13,11 @@ function [catF,  catPSDs ] = mergeSpans( freqs, PSDs, range, type )
         elseif strcmp(type, 'short')
             catPSDs = [PSDs(101:end,1); PSDs(202:end,2); PSDs(102:end,3)];
             catF = [F(101:end,1); F(202:end,2); F(102:end,3)];
+        elseif strcmp(type, 'HSonly')
+            catPSDs = [PSDs(1:end,1); PSDs(67:end,2); PSDs(97:end,3)];
+            catF = [F(1:end,1); F(67:end,2); F(97:end,3)];
         end
+
     else
         if strcmp(type, 'fast')
             catPSDs = [PSDs(:,1); PSDs(202:end,2); PSDs(201:end,3)];
