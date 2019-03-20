@@ -3,10 +3,12 @@ clear all;
 
 datestamp = datestr(date, 29);
 
-versionNum = 4; %board version number for gain selection. Currently must be 4.
+versionNum = 1; %board version number for gain selection. Currently must be 4.
 varplot = 0 ; %set 0 for individual figures; 1 for a single figure.(not up yet)
-stageSpeed = 1; % 0 if high and low speed headstages used, 1 if only high speed used
-rangeType = 'HSonly'; % fast or HSonly (HSonly is actually just single spectrum, while fast is the old way of doing it 1/30/2019)
+stageSpeed = 0; % 0 if high and low speed headstages used, 1 if only high speed used
+rangeType = 'fast_old'; % fast or HSonly (HSonly is actually just single spectrum, while fast is the old way of doing it 1/30/2019)
+                        % Use 'fast_old' if trying to run any data before
+                        % 2019
 
 d = uigetdir(); 
 listFiles = dir(d);
@@ -211,7 +213,7 @@ end
 %  prec = zeros([16,1752]);
  %Plot Config
 % colors = distinguishable_colors(32);
-colors = colormap(colorcube);spacer =6;
+colors = colormap(colorcube);spacer =1;
 numTraces = 0;
 font_size = 16; font_name = 'Arial';
 % figure()

@@ -7,6 +7,7 @@ function setMuxChannelv2(port, m1,m2,m3)
         bitor(m1,16); 
     else
         bitand(m1,15);   
+        
     end
     if m2 == -1 || (m2 > 15)
         bitor(m2,16); 
@@ -34,6 +35,7 @@ function setMuxChannelv2(port, m1,m2,m3)
     
     
 
-    
+    currentFile = mfilename( 'fullpath' );
+    cd(fileparts(currentFile));
     args = ['python ../python/MuxControl.py ',port,' ',m1,' ',m2,' ',m3];
     system(args);

@@ -1,0 +1,1 @@
+matlab -minimize -nosplash -nodesktop -r "setMuxChannelv2('COM4',%1,0,0)"

@@ -6,7 +6,7 @@ d = uigetdir();
 
 % config
 % startLine = 97;
-startLine = 75;
+startLine = 75; %Change back to 75 if not doing auto impedance measurements. Make 77 for auto
 %numRows = 60;
 numRows = 50; %_hs
 
@@ -23,7 +23,7 @@ data = zeros(numRows, 11, length(fnames)-2);
 s = size(data);
 
 % colors = distinguishable_colors(32);
-colors = colormap(colorcube);spacer = 4;
+colors = colormap(colorcube);spacer = 1;
 
 for kk = 3:length(fnames)
     % Format data to usable format

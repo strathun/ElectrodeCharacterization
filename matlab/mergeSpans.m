@@ -7,6 +7,9 @@ function [catF,  catPSDs ] = mergeSpans( freqs, PSDs, range, type )
         if strcmp(type,'fast')
             catPSDs = [PSDs(52:end,1); PSDs(102:end,2); PSDs(102:end,3)];
             catF = [F(52:end,1); F(102:end,2); F(102:end,3)];
+        elseif strcmp(type,'fast_old')
+            catPSDs = [PSDs(52:end,1); PSDs(102:end,2); PSDs(102:end,3)];
+            catF = [F(52:end,1); F(102:end,2); F(102:end,3)];
         elseif strcmp(type, 'reg')
             catPSDs = [PSDs(:,1); PSDs(202:end,2); PSDs(102:end,3); PSDs(102:end,4)];
             catF = [F(:,1); F(202:end,2); F(102:end,3); F(102:end,4)];
@@ -20,6 +23,9 @@ function [catF,  catPSDs ] = mergeSpans( freqs, PSDs, range, type )
 
     else
         if strcmp(type, 'fast')
+            catPSDs = [PSDs(:,1); PSDs(202:end,2); PSDs(201:end,3)];
+            catF = [F(:,1); F(202:end,2); F(201:end,3)];
+        elseif strcmp(type, 'fast_old')
             catPSDs = [PSDs(:,1); PSDs(202:end,2); PSDs(201:end,3)];
             catF = [F(:,1); F(202:end,2); F(201:end,3)];
         end

@@ -1,9 +1,10 @@
-function [f, Zreal, Zim] = extractImpedanceData(relPath)
+function [f, Zreal, Zim, Phase] = extractImpedanceData(relPath)
 %UNTITLED Summary of this function goes here
 %   This will be a generic function to extract all of the Gamry data to a
 %   structure. 
 %   Inputs: 
-%       relPath: String of relative path of the directory to be analyzed.
+%       relPath: String of relative path of the directory to be analyzed
+%       (relative path from rawData)
 %                ex. '2018-01-30_TDT3_PreSurge/Impedance'
 
 % Sets relative filepaths
@@ -43,7 +44,6 @@ for kk = 3:length(fnames)
     fname = fnames(kk);
     rawTable=readtable(cell2mat(fname),'delimiter','tab','headerlines',startLine);
     makeArray=table2array(rawTable(2:end,2:end));
-    disp(kk)
     for ii = 1:s(1)
         for jj = 1:s(2)
 %             t = str2num(cell2mat(makeArray(ii,jj)));
