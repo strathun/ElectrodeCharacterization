@@ -20,7 +20,7 @@ addpath(genpath('../matlab'));
 kT=300*1.38e-23;
 % folder_name_note = 'UEA_7603-16 _Surgery2';    %folder will be date stamped + note
 % fnote = 'Surgery2';                     %Note to append to filename
-folder_name_note = 'TDT15_Day22_Iso3';    %folder will be date stamped + note
+folder_name_note = 'TDT15_Day42';    %folder will be date stamped + note
 fnote = 'HS';
 
 datestamp=datestr(date,29);
@@ -28,12 +28,12 @@ datestamp=datestr(date,29);
 channel = dec2bin(trodeNum,4);
 % channel = '0000'; %Binary used for mux channel select as string
 
-scaleDown = 2; % factor to reduce number of averages by
+scaleDown = 6; % factor to reduce number of averages by
                 % use 1 in vitro and 2 in vivo
 
 f_range = 2; %Select 0 for low frequency headstage, 1 for high frequency, 2 for full spectrum (highSpeed HS)
 
-senseRange=-35; %HS2: GND -64, 
+senseRange=-49; %HS2: GND -64, 
                 %HS3: GND -63
                 %HSlow: GND -67
                 %UEA_LS_vitro = -65

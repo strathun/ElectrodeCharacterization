@@ -1,6 +1,7 @@
 %% Script to generate impedance plots
 
-nameArray{1} = '2019-03-15_TDT15_Day22_Iso3/Impedance';
+nameArray{1} = '2018-05-10_TDT6_Day03/Impedance';
+
 [~, numPath] = size(nameArray);
 
 for jj = 1:numPath

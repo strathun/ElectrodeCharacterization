@@ -6,7 +6,7 @@ d = uigetdir();
 
 % config
 % startLine = 97;
-startLine = 75; %Change back to 75 if not doing auto impedance measurements. Make 77 for auto
+startLine = 77; %Change back to 75 if not doing auto impedance measurements. Make 77 for auto
 %numRows = 60;
 numRows = 50; %_hs
 
