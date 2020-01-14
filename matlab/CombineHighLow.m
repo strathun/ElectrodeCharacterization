@@ -11,7 +11,7 @@ if strcmp(highType,'HSonly')
     PSD_el_H=y';
     final_PSDs_H=sqrt(PSD_el_H.^2-PSD_gnd_H.^2);
     [fH, PH] =mergeSpans(x, final_PSDs_H, 1, highType);
-    
+  
     % Pulls in gain spectrum gain measurement. Interpolates these
     % measurements across the frequency range of interest.
     load(AvHigh)
