@@ -2,8 +2,8 @@
 % Eventually make everything inside the for loop a function
 % and outside a script.
 clear all
-startNum = 0;    %0 indexing channel names (0-15)
-endNum = 15; 
+startNum = 6;    %0 indexing channel names (0-15)
+endNum = 6; 
 versionNum = 42; %board version number (1 or 4, or 41 [if all measurements will be with high speed])
                  %42 if full spectrum single measurement with High speed
 for trodeNum = startNum:endNum
@@ -20,7 +20,7 @@ addpath(genpath('../matlab'));
 kT=300*1.38e-23;
 % folder_name_note = 'UEA_7603-16 _Surgery2';    %folder will be date stamped + note
 % fnote = 'Surgery2';                     %Note to append to filename
-folder_name_note = 'TDT15_Day42';    %folder will be date stamped + note
+folder_name_note = 'TDT19_Day11_wideband';    %folder will be date stamped + note
 fnote = 'HS';
 
 datestamp=datestr(date,29);
@@ -28,12 +28,12 @@ datestamp=datestr(date,29);
 channel = dec2bin(trodeNum,4);
 % channel = '0000'; %Binary used for mux channel select as string
 
-scaleDown = 6; % factor to reduce number of averages by
+scaleDown = 1.5; % factor to reduce number of averages by
                 % use 1 in vitro and 2 in vivo
 
 f_range = 2; %Select 0 for low frequency headstage, 1 for high frequency, 2 for full spectrum (highSpeed HS)
 
-senseRange=-49; %HS2: GND -64, 
+senseRange=-55; %HS2: GND -64, 
                 %HS3: GND -63
                 %HSlow: GND -67
                 %UEA_LS_vitro = -65
@@ -55,7 +55,7 @@ highF_Av =  767;  % Gain for v4 headstages (Reworked/measured 1/24/19)
 
 % Uses imbed mux to auto set channel
 electrodeNum = bin2dec(channel);
-setMuxChannelv2('COM4',electrodeNum,0,0)
+% setMuxChannelv2('COM4',electrodeNum,0,0)
 pause(3)
 %% Execute
 cd('..\rawData');
@@ -152,12 +152,17 @@ elseif f_range == 1
     rangeType = 'highF'
     
 elseif f_range == 2
-%                
-    spans =    [2^12 25e3 105e3 ]; 
-    centers =  spans./2;
-    averages = n*[500 500 800]; 
- 
+%       
+
+%     spans =    [2^12 25e3 105e3 ]; 
+%     centers =  spans./2;
+%     averages = n*[500 500 800]; 
     
+%% Used for high frequency measurements to troubleshoot Mux
+    spans =    [25e3 105e3 600e3]; 
+    centers =  spans./2;
+    averages = n*[500 500 800];
+
     Av = highF_Av;
     rangeType = 'HSonly';
 
